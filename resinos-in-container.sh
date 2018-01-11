@@ -79,6 +79,11 @@ if [ -z "$image" ] || [ -z "$config_json" ]; then
 	exit 1
 fi
 
+if ! docker info &> /dev/null; then
+    echo "ERROR: Docker needs to be running on your host machine."
+    exit 1
+fi
+
 for volume in boot state data; do
 	if docker volume inspect "resin-${volume}-${container_id}" &> /dev/null; then
 		echo "INFO: Reusing resin-${volume}-${container_id} docker volume..."
@@ -102,6 +107,7 @@ else
 fi
 
 echo "INFO: Running resinOS as container resinos-in-container-$container_id ..."
+docker pull "$image"
 if docker run -t --rm --privileged \
 		-e "container=docker" \
 		--stop-timeout=20 \
