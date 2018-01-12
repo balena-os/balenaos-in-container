@@ -1,3 +1,5 @@
+![resinOS in container](https://github.com/resin-os/resinos-in-container/raw/master/images/resinos-in-container.png)
+
 # ResinOS in a docker container
 This is a tool which enables running resinOS docker images as a docker container.
 
