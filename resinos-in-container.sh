@@ -102,7 +102,7 @@ resin_boot_volume_path=$(docker volume inspect resin-boot-$container_id | jq -r 
 if sudo ls "$resin_boot_volume_path/config.json" &> /dev/null; then
 	echo "INFO: Reusing already existing config.json in resin-boot-$container_id docker volume."
 else
-	echo "INFO: Populating config.json in resin-boot-$container_id..."
+	echo "INFO: Populating config.json in resin-boot-$container_id... This operation needs root access."
 	sudo cp "$config_json" "$resin_boot_volume_path/config.json"
 fi
 
