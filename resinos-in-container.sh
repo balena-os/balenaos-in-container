@@ -118,7 +118,7 @@ if docker run --rm --privileged \
 		-v "$resin_state_volume" \
 		-v "$resin_data_volume" \
 		"$image" \
-		/sbin/init; then
+		/sbin/init &> /dev/null; then
 	echo "ERROR: Running docker container."
 else
 	echo "INFO: ResinOS container stopped."
