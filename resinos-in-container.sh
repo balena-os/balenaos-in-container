@@ -107,7 +107,7 @@ else
 fi
 
 echo "INFO: Running resinOS as container resinos-in-container-$container_id ..."
-if docker run -t --rm --privileged \
+if docker run --rm --privileged \
 		-e "container=docker" \
 		--stop-timeout=20 \
 		--dns 127.0.0.2 \
