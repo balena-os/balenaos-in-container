@@ -99,15 +99,14 @@ resin_data_volume="resin-data-$container_id:/mnt/data"
 # Populate the boot volume with the config.json
 resin_boot_volume_path=$(docker volume inspect resin-boot-$container_id | jq -r '.[0].Mountpoint')
 
+echo "INFO: Populating config.json in resin-boot-$container_id... This operation needs root access."
 if sudo ls "$resin_boot_volume_path/config.json" &> /dev/null; then
 	echo "INFO: Reusing already existing config.json in resin-boot-$container_id docker volume."
 else
-	echo "INFO: Populating config.json in resin-boot-$container_id... This operation needs root access."
 	sudo cp "$config_json" "$resin_boot_volume_path/config.json"
 fi
 
 echo "INFO: Running resinOS as container resinos-in-container-$container_id ..."
-docker pull "$image"
 if docker run -t --rm --privileged \
 		-e "container=docker" \
 		--stop-timeout=20 \
