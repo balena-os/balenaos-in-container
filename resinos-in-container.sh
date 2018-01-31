@@ -97,7 +97,7 @@ resin_state_volume="resin-state-$container_id:/mnt/state"
 resin_data_volume="resin-data-$container_id:/mnt/data"
 
 # Populate the boot volume with the config.json
-resin_boot_volume_path=$(docker volume inspect resin-boot-$container_id | jq -r '.[0].Mountpoint')
+resin_boot_volume_path=$(docker volume inspect --format '{{ .Mountpoint }}' resin-boot-$container_id)
 
 echo "INFO: Populating config.json in resin-boot-$container_id... This operation needs root access."
 if sudo ls "$resin_boot_volume_path/config.json" &> /dev/null; then
