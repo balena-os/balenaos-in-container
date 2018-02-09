@@ -5,6 +5,8 @@ set -e
 config_path=""
 container_id="$RANDOM"
 clean_volumes=no
+docker_extra_args=""
+detach=""
 
 function help {
 	cat << EOF
@@ -24,9 +26,14 @@ ARGUMENTS:
 	-c, --config
 		The config.json path. This you can download from resin.io dashboard.
 		Mandatory argument.
+	-d, --detach
+		Run the container in the background and print container ID (just like "docker run -d")
+		Default: no.
+	--extra-args
+		Additional arguments for docker run (e.g. to add bind mounts)
 	--clean-volumes
 		If volumes are not planned to be reused, you can take advantage of this
-		argument to clean up the system.
+		argument to clean up the system. Cannot be used together with -d.
 		Default: no.
 EOF
 }
@@ -59,6 +66,13 @@ while [[ $# -ge 1 ]]; do
 				echo "ERROR: $config_path no such file."
 				exit 1
 			fi
+			shift
+			;;
+		-d|--detach)
+			detach="--detach"
+			;;
+		--extra-args)
+			docker_extra_args="$2"
 			shift
 			;;
 		--clean-volumes)
@@ -117,14 +131,24 @@ if docker run --rm --privileged \
 		-v "$resin_boot_volume" \
 		-v "$resin_state_volume" \
 		-v "$resin_data_volume" \
+		$docker_extra_args \
+		$detach \
 		"$image" \
 		/sbin/init &> /dev/null; then
-	echo "ERROR: Running docker container."
+	if [ "$detach" != "" ]; then
+		echo "INFO: resinOS container running as resinos-in-container-$container_id"
+	else
+		echo "ERROR: Running docker container."
+	fi
 else
-	echo "INFO: ResinOS container stopped."
+	if [ "$detach" != "" ]; then
+		echo "ERROR: Running docker container."
+	else
+		echo "INFO: ResinOS container stopped."
+	fi
 fi
 
-if [ "$clean_volumes" = "yes" ]; then
+if [ "$detach" = "" ] && [ "$clean_volumes" = "yes" ]; then
 	echo "Cleaning volumes..."
 	docker volume rm "resin-boot-$container_id" "resin-state-$container_id" "resin-data-$container_id" &> /dev/null
 fi
