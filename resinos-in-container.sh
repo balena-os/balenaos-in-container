@@ -98,6 +98,11 @@ if ! docker info &> /dev/null; then
     exit 1
 fi
 
+# Get absolute path of the script location
+# In this way we can reference any file relative to the script path easily
+# Get the absolute script location
+SCRIPTPATH="$(cd "$(dirname "$0")" ; pwd)"
+
 for volume in boot state data; do
 	if docker volume inspect "resin-${volume}-${container_id}" &> /dev/null; then
 		echo "INFO: Reusing resin-${volume}-${container_id} docker volume..."
@@ -111,30 +116,31 @@ resin_state_volume="resin-state-$container_id:/mnt/state"
 resin_data_volume="resin-data-$container_id:/mnt/data"
 
 # Populate the boot volume with the config.json
-resin_boot_volume_path=$(docker volume inspect --format '{{ .Mountpoint }}' resin-boot-$container_id)
-
-echo "INFO: Populating config.json in resin-boot-$container_id... This operation needs root access."
-if sudo ls "$resin_boot_volume_path/config.json" &> /dev/null; then
-	echo "INFO: Reusing already existing config.json in resin-boot-$container_id docker volume."
+docker run -i --rm -v \
+	"$resin_boot_volume" -v "$config_json":/config.json \
+	"$image" sh << EOF
+if ! [ -f /mnt/boot/config.json ]; then
+	cp /config.json /mnt/boot/config.json
 else
-	sudo cp "$config_json" "$resin_boot_volume_path/config.json"
+	echo "INFO: Reusing already existing config.json in docker volume."
 fi
+EOF
 
 echo "INFO: Running resinOS as container resinos-in-container-$container_id ..."
-if docker run --rm --privileged \
+if docker run -ti --rm --privileged \
 		-e "container=docker" \
-		--stop-timeout=20 \
+		--stop-timeout=30 \
 		--dns 127.0.0.2 \
 		--name "resinos-in-container-$container_id" \
 		--stop-signal SIGRTMIN+3 \
-		-v /lib/modules:/lib/modules:ro \
+		-v "$SCRIPTPATH/conf/systemd-watchdog.conf:/etc/systemd/system.conf.d/watchdog.conf:ro" \
 		-v "$resin_boot_volume" \
 		-v "$resin_state_volume" \
 		-v "$resin_data_volume" \
 		$docker_extra_args \
 		$detach \
 		"$image" \
-		/sbin/init &> /dev/null; then
+		/sbin/init; then
 	if [ "$detach" != "" ]; then
 		echo "INFO: resinOS container running as resinos-in-container-$container_id"
 	else
