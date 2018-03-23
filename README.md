@@ -10,7 +10,7 @@ Before running this tool make sure:
 3. Depending on what resinOS image you are trying to boot, you might need aufs or overlayfs on your host.
 
 ## How to use
-See the tool's help message.
+See the tool's help message: `./resinos-in-container.sh --help`.
 
 ## Development
 Want to contribute? Great! Throw pull requests at us.
