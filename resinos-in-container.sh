@@ -39,11 +39,11 @@ EOF
 }
 
 # realpath is not available on Mac OS, define it as a bash function if it's not found
-if [ ! -f "/usr/bin/realpath" ] && [ ! -f "/bin/realpath" ]; then
+command -v realpath >/dev/null 2>&1 || {
     realpath() {
         [[ $1 = /* ]] && echo "$1" || echo "$PWD/${1#./}"
     }
-fi
+}
 
 # Parse arguments
 while [[ $# -ge 1 ]]; do
