@@ -25,7 +25,7 @@ ARGUMENTS:
 		Default: randomly generated.
 	-c, --config
 		The config.json path. This you can download from resin.io dashboard.
-		Mandatory argument.
+		When not provided, an empty json will be generated.
 	-d, --detach
 		Run the container in the background and print container ID (just like "docker run -d")
 		Default: no.
@@ -87,7 +87,7 @@ while [[ $# -ge 1 ]]; do
 	shift
 done
 
-if [ -z "$image" ] || [ -z "$config_json" ]; then
+if [ -z "$image" ]; then
 	echo "ERROR: Required arguments not provided."
 	help
 	exit 1
@@ -116,11 +116,20 @@ resin_state_volume="resin-state-$container_id:/mnt/state"
 resin_data_volume="resin-data-$container_id:/mnt/data"
 
 # Populate the boot volume with the config.json
-docker run -i --rm -v \
-	"$resin_boot_volume" -v "$config_json":/config.json \
+if [ -n "$config_json" ]; then
+	populate_extra_args="-v $config_json:/config.json"
+fi
+docker run -i --rm \
+	-v "/usr/bin/qemu-aarch64-static:/usr/bin/qemu-aarch64-static:ro" \
+	-v "$resin_boot_volume" \
+	$populate_extra_args \
 	"$image" sh << EOF
 if ! [ -f /mnt/boot/config.json ]; then
-	cp /config.json /mnt/boot/config.json
+	if [ -f /config.json ]; then
+		cp /config.json /mnt/boot/config.json
+	else
+		echo "{}" > /mnt/boot/config.json
+	fi
 else
 	echo "INFO: Reusing already existing config.json in docker volume."
 fi
