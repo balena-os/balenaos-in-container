@@ -1,4 +1,5 @@
-FROM alephan/resinos-in-container:qemux86-64
+# Choose latest base image https://hub.docker.com/r/resin/resinos/tags/
+FROM resin/resinos:2.12.5_rev1-intel-nuc
 
 RUN sed -i "s/-s aufs/-s overlay2/g" /lib/systemd/system/balena.service; \
 if [ -f /etc/systemd/system/balena.service.d/balena.conf ]; then \
