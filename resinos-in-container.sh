@@ -7,6 +7,7 @@ container_id="$RANDOM"
 clean_volumes=no
 docker_extra_args=""
 detach=""
+no_tty="-ti"
 
 function help {
 	cat << EOF
@@ -35,6 +36,9 @@ ARGUMENTS:
 		If volumes are not planned to be reused, you can take advantage of this
 		argument to clean up the system. Cannot be used together with -d.
 		Default: no.
+    --no-tty
+        Don't allocate a pseudo-TTY and don't keep STDIN open (docker run without "-it").
+        Default: no.
 EOF
 }
 
@@ -85,6 +89,9 @@ while [[ $# -ge 1 ]]; do
 		--clean-volumes)
 			clean_volumes=yes
 			;;
+        --no-tty)
+            no_tty=""
+            ;;
 		*)
 			echo "ERROR: Unrecognized option $1."
 			help
@@ -134,7 +141,7 @@ fi
 EOF
 
 echo "INFO: Running resinOS as container resinos-in-container-$container_id ..."
-if docker run -ti --rm --privileged \
+if docker run $no_tty --rm --privileged \
 		-e "container=docker" \
 		--stop-timeout=30 \
 		--dns 127.0.0.2 \
