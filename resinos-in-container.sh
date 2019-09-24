@@ -147,6 +147,7 @@ if docker run $no_tty --rm --privileged \
 		--dns 127.0.0.2 \
 		--name "resinos-in-container-$container_id" \
 		--stop-signal SIGRTMIN+3 \
+		-v /lib/modules:/lib/modules:ro \
 		-v "$SCRIPTPATH/conf/systemd-watchdog.conf:/etc/systemd/system.conf.d/watchdog.conf:ro" \
 		-v "$resin_boot_volume" \
 		-v "$resin_state_volume" \
