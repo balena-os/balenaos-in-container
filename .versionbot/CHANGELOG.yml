@@ -1,0 +1,13 @@
+- commits:
+    - subject: Move to balena overall and add name prefix
+      hash: 391212a6f3736d74d33a5745d4c5c9ad0738f1ee
+      body: |
+        Also trying to fix up versioning
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Gergely Imreh <gergely@balena.io>
+        signed-off-by: Gergely Imreh <gergely@balena.io>
+      author: Gergely Imreh
+  version: 0.1.0
+  date: 2019-09-30T12:58:04.069Z
