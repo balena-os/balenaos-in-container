@@ -140,6 +140,7 @@ done
 balena_boot_volume="${docker_prefix}boot-${docker_postfix}:/mnt/boot"
 balena_state_volume="${docker_prefix}state-${docker_postfix}:/mnt/state"
 balena_data_volume="${docker_prefix}data-${docker_postfix}:/mnt/data"
+balena_systemd_volume="${docker_prefix}systemd-${docker_postfix}:/etc/systemd/system.conf.d/:ro"
 
 # Populate the boot volume with the config.json
 docker run -i --rm -v \
@@ -162,7 +163,7 @@ if docker run $no_tty --rm --privileged \
 		--name "${container_name}" \
 		--stop-signal SIGRTMIN+3 \
 		-v /lib/modules:/lib/modules:ro \
-		-v "$SCRIPTPATH/conf/systemd-watchdog.conf:/etc/systemd/system.conf.d/watchdog.conf:ro" \
+		-v "$balena_systemd_volume" \
 		-v "$balena_boot_volume" \
 		-v "$balena_state_volume" \
 		-v "$balena_data_volume" \
