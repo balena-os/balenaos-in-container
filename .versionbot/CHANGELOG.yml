@@ -1,4 +1,14 @@
 - commits:
+    - subject: Avoid repopulating the config.json when reusing the boot volume
+      hash: 29c7da7b384187c12c48f7875e2332c2ef4bc8f2
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Pagan Gazzard
+  version: 0.2.0
+  date: 2019-11-18T18:37:47.411Z
+- commits:
     - subject: Move to balena overall and add name prefix
       hash: 391212a6f3736d74d33a5745d4c5c9ad0738f1ee
       body: |
