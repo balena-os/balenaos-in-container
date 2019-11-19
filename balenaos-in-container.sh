@@ -129,28 +129,29 @@ fi
 # Get the absolute script location
 SCRIPTPATH="$(cd "$(dirname "$0")" ; pwd)"
 
-for volume in boot state data; do
-	if docker volume inspect "${docker_prefix}${volume}-${docker_postfix}" &> /dev/null; then
-		echo "INFO: Reusing ${docker_prefix}${volume}-${docker_postfix} docker volume..."
+balena_boot_volume="${docker_prefix}boot-${docker_postfix}"
+balena_state_volume="${docker_prefix}state-${docker_postfix}"
+balena_data_volume="${docker_prefix}data-${docker_postfix}"
+for volume in balena_boot_volume balena_state_volume balena_data_volume; do
+	if docker volume inspect "${volume}" &> /dev/null; then
+		echo "INFO: Reusing ${volume} docker volume..."
 	else
-		echo "INFO: Creating ${docker_prefix}${volume}-${docker_postfix} docker volume..."
-		docker volume create "${docker_prefix}${volume}-${docker_postfix}" &> /dev/null
-	fi
-done
-balena_boot_volume="${docker_prefix}boot-${docker_postfix}:/mnt/boot"
-balena_state_volume="${docker_prefix}state-${docker_postfix}:/mnt/state"
-balena_data_volume="${docker_prefix}data-${docker_postfix}:/mnt/data"
-
-# Populate the boot volume with the config.json
-docker run -i --rm -v \
-	"$balena_boot_volume" -v "$config_json":/config.json \
-	"$image" sh << EOF
+		echo "INFO: Creating ${volume} docker volume..."
+		docker volume create "${volume}" &> /dev/null
+		if [[ "${volume}" == "${balena_boot_volume}" ]]; then
+			# Populate the boot volume with the config.json on creation
+			docker run -i --rm -v \
+				"${volume}" -v "$config_json":/config.json \
+				"$image" sh << EOF
 if ! [ -f /mnt/boot/config.json ]; then
 	cp /config.json /mnt/boot/config.json
 else
 	echo "INFO: Reusing already existing config.json in docker volume."
 fi
 EOF
+		fi
+	fi
+done
 
 container_name="${docker_prefix}container-${docker_postfix}"
 echo "INFO: Running balenaOS as container ${container_name} ..."
@@ -163,9 +164,9 @@ if docker run $no_tty --rm --privileged \
 		--stop-signal SIGRTMIN+3 \
 		-v /lib/modules:/lib/modules:ro \
 		-v "$SCRIPTPATH/conf/systemd-watchdog.conf:/etc/systemd/system.conf.d/watchdog.conf:ro" \
-		-v "$balena_boot_volume" \
-		-v "$balena_state_volume" \
-		-v "$balena_data_volume" \
+		-v "${balena_boot_volume}:/mnt/boot" \
+		-v "${balena_state_volume}:/mnt/state" \
+		-v "${balena_data_volume}:/mnt/data" \
 		$docker_extra_args \
 		$detach \
 		"$image" \
@@ -185,5 +186,5 @@ fi
 
 if [ "$detach" = "" ] && [ "$clean_volumes" = "yes" ]; then
 	echo "Cleaning volumes..."
-	docker volume rm "${docker_prefix}boot-${docker_postfix}" "${docker_prefix}state-${docker_postfix}" "${docker_prefix}data-${docker_postfix}" &> /dev/null
+	docker volume rm "${balena_boot_volume}" "${balena_state_volume}" "${balena_data_volume}" &> /dev/null
 fi
