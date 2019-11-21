@@ -132,7 +132,7 @@ SCRIPTPATH="$(cd "$(dirname "$0")" ; pwd)"
 balena_boot_volume="${docker_prefix}boot-${docker_postfix}"
 balena_state_volume="${docker_prefix}state-${docker_postfix}"
 balena_data_volume="${docker_prefix}data-${docker_postfix}"
-for volume in balena_boot_volume balena_state_volume balena_data_volume; do
+for volume in ${balena_boot_volume} ${balena_state_volume} ${balena_data_volume}; do
 	if docker volume inspect "${volume}" &> /dev/null; then
 		echo "INFO: Reusing ${volume} docker volume..."
 	else
@@ -141,7 +141,7 @@ for volume in balena_boot_volume balena_state_volume balena_data_volume; do
 		if [[ "${volume}" == "${balena_boot_volume}" ]]; then
 			# Populate the boot volume with the config.json on creation
 			docker run -i --rm -v \
-				"${volume}" -v "$config_json":/config.json \
+				"${volume}":/mnt/boot -v "$config_json":/config.json \
 				"$image" sh << EOF
 if ! [ -f /mnt/boot/config.json ]; then
 	cp /config.json /mnt/boot/config.json
