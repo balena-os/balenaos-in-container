@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'Fixes after config.json improvements in PR #19'
+      hash: 00604decd384f9fc148f03d7da81824356ab8d52
+      body: |
+        Fixes #20
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Zubair Lutfullah Kakakhel <zubair@balena.io>
+        signed-off-by: Zubair Lutfullah Kakakhel <zubair@balena.io>
+      author: Zubair Lutfullah Kakakhel
+  version: 0.2.1
+  date: 2019-11-21T14:57:38.692Z
+- commits:
     - subject: Avoid repopulating the config.json when reusing the boot volume
       hash: 29c7da7b384187c12c48f7875e2332c2ef4bc8f2
       body: ''
