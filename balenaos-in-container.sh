@@ -44,6 +44,12 @@ ARGUMENTS:
 	--no-tty
 		Don't allocate a pseudo-TTY and don't keep STDIN open (docker run without "-it").
 		Default: no.
+	--tc
+		Runs docker-tc and passes labels to the container that allow shaping the container network.
+		See https://github.com/lukaszlach/docker-tc#usage for possible values.
+		NOTE: This accepts a space-separated list of labels, each gets prefixed with "com.docker-tc."
+		The "com.docker-tc.enable=1" label is applied automatically.
+
 EOF
 }
 
@@ -104,6 +110,16 @@ while [[ $# -ge 1 ]]; do
 		--no-tty)
 			no_tty=""
 			;;
+		--tc)
+			if [ -z "$2" ]; then
+				log ERROR "\"$1\" argument needs a value."
+			fi
+			tc_extra_args="--label com.docker-tc.enabled=1"
+			for rule in $2; do
+			    tc_extra_args="${tc_extra_args} --label com.docker-tc.${rule}"
+			done
+			shift
+			;;
 		*)
 			echo "ERROR: Unrecognized option $1."
 			help
@@ -122,6 +138,31 @@ fi
 if ! docker info &> /dev/null; then
     echo "ERROR: Docker needs to be running on your host machine."
     exit 1
+fi
+
+
+if [ -n "$tc_extra_args" ]; then
+    # create a separate network for the container
+    # this is required for docker-tc to work
+    netname="balena-container-${docker_postfix}-net"
+
+    echo "INFO: Creating ${netname} container network..."
+    docker network create "${netname}" >/dev/null || true
+    trap_remove_network () { echo "INFO: Removing ${netname} container network..."; docker network rm "${netname}"; }
+    docker_extra_args="${docker_extra_args} --network ${netname}"
+
+    echo "INFO: Running docker-tc container..."
+    docker run -d --rm \
+	--name=docker-tc \
+	--network=host \
+	--cap-add=NET_ADMIN \
+	--mount="type=bind,source=/var/run/docker.sock,target=/var/run/docker.sock" \
+	--mount="type=tmpfs,target=/var/docker-tc" \
+	lukaszlach/docker-tc || true
+    trap_stop_dockertc () { echo "INFO: Stopping docker-tc container..."; docker stop -t 5 docker-tc >/dev/null || yes; }
+
+    docker_extra_args="${docker_extra_args} ${tc_extra_args}"
+    trap '{ trap_remove_network; trap_stop_dockertc; }' EXIT ERR
 fi
 
 # Get absolute path of the script location
