@@ -164,13 +164,14 @@ if docker run $no_tty --rm --privileged \
 		--stop-signal SIGRTMIN+3 \
 		-v /lib/modules:/lib/modules:ro \
 		-v "$SCRIPTPATH/conf/systemd-watchdog.conf:/etc/systemd/system.conf.d/watchdog.conf:ro" \
+		-v "$SCRIPTPATH/aufs2overlay.sh:/aufs2overlay" \
 		-v "${balena_boot_volume}:/mnt/boot" \
 		-v "${balena_state_volume}:/mnt/state" \
 		-v "${balena_data_volume}:/mnt/data" \
 		$docker_extra_args \
 		$detach \
 		"$image" \
-		/sbin/init; then
+		sh -c '/aufs2overlay;exec /sbin/init'; then
 	if [ "$detach" != "" ]; then
 		echo "INFO: balenaOS container running as ${container_name}"
 	else
