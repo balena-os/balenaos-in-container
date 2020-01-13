@@ -1,4 +1,18 @@
 - commits:
+    - subject: Add powershell and aufs2overlay scripts
+      hash: 19f0ea5c62f46704459c777cc38d3a146c28d7d4
+      body: |
+        - Include powershell script for running balenaos-in-container on Windows
+        - migrate to overlay if image uses AUFS using aufs2overlay.sh script
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Rahul Thakoor <rahul@balena.io>
+        signed-off-by: Rahul Thakoor <rahul@balena.io>
+      author: Rahul Thakoor
+  version: 0.3.0
+  date: 2020-01-13T08:55:22.433Z
+- commits:
     - subject: 'Fixes after config.json improvements in PR #19'
       hash: 00604decd384f9fc148f03d7da81824356ab8d52
       body: |
