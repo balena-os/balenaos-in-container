@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'Update README.md with examples, and argument explanations'
+      hash: 9aceafdd781435b5306c62a2af948832282c3c77
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Thomas Manning <thomasm@balena.io>
+        signed-off-by: Thomas Manning <thomasm@balena.io>
+      author: Thomas Manning
+  version: 0.4.0
+  date: 2020-01-28T17:44:52.812Z
+- commits:
     - subject: Add powershell and aufs2overlay scripts
       hash: 19f0ea5c62f46704459c777cc38d3a146c28d7d4
       body: |
