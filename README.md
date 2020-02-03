@@ -13,13 +13,27 @@ Before running this tool make sure:
 4. The balenaOS image is compatible with the architecture where you are running the script. e.g. If you are running this script on your laptop (x86_64), you can run balenaOS images built for the NUC which are also x86_64.
 
 ## How to use
-See the tool's help message for all arguments: `./balenaos-in-container.sh --help`.
+There are two scripts in this project: 
+ - `balenaos-in-container.sh`: use this to run on macOS or Linux
+ - `balenaos-in-container.ps1`: use this to run on Windows
+
+See the tool's help message for all arguments:
+- macOS or Linux:  `./balenaos-in-container.sh --help`.
+- Windows: `Get-Help .\balenaos-in-container.ps1 -detailed`
 
 Mandatory arguments:
 
-`--image <image>` must be a docker image. Does not support raw `.img` images. See https://hub.docker.com/r/resin/resinos/tags. Intel NUC is the most likely to work out of the box at this stage. Must be `dev` edition.
+1. Image
+- macOS or Linux: `--image <image>`
+- Windows: `-image <image>`
 
-`-c, --config <config>` can be downloaded from your balenaCloud dashboard. Once you have added an application click "Add a new device", click to expand the "Advanced" section and check "Download configuration file only" now click "Download configuration file".
+The image must be a docker image. Does not support raw `.img` images. See https://hub.docker.com/r/resin/resinos/tags. Intel NUC is the most likely to work out of the box at this stage. Must be `dev` edition.
+
+2. Config
+- macOS or Linux: `-c, --config <config>`
+- Windows: `-c, -config <config>`
+
+The config can be downloaded from your balenaCloud dashboard. Once you have added an application click "Add a new device", click to expand the "Advanced" section and check "Download configuration file only" now click "Download configuration file".
 
 ## Example
 
@@ -28,6 +42,8 @@ Mandatory arguments:
 
 ### Windows
 `PS> .\balenaos-in-container.ps1 -image resin/resinos:2.46.0_rev1.dev-intel-nuc  -id test  -c "$PWD\config.json" -detach`
+
+You can find the latest images on [dockerhub](https://hub.docker.com/r/resin/resinos/tags).
 
 ## Development
 Want to contribute? Great! Throw pull requests at us.
