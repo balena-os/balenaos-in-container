@@ -1,4 +1,16 @@
 - commits:
+    - subject: Add separate instructions for macOS/Linux and Windows
+      hash: 4067ac9d0f412e0b3415e7def6e3ac3cddb01b0b
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Rahul Thakoor <rahul@balena.io>
+        signed-off-by: Rahul Thakoor <rahul@balena.io>
+      author: Rahul Thakoor
+  version: 0.5.0
+  date: 2020-02-03T05:50:12.140Z
+- commits:
     - subject: 'Update README.md with examples, and argument explanations'
       hash: 9aceafdd781435b5306c62a2af948832282c3c77
       body: ''
