@@ -38,7 +38,7 @@ The config can be downloaded from your balenaCloud dashboard. Once you have adde
 ## Example
 
 ### Linux / MacOS
-`$ ./balenaos-in-container.sh -image resin/resinos:2.46.0_rev1.dev-intel-nuc  -id test  -c "$PWD\config.json" -detach`
+`$ ./balenaos-in-container.sh --image resin/resinos:2.46.0_rev1.dev-intel-nuc  --id test  -c "$PWD\config.json" --detach`
 
 ### Windows
 `PS> .\balenaos-in-container.ps1 -image resin/resinos:2.46.0_rev1.dev-intel-nuc  -id test  -c "$PWD\config.json" -detach`
