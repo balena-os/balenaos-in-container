@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'README: Updating example for available options'
+      hash: f213179dd901b95c57773517fff855679f29d3dc
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Gareth Davies <gareth@balena.io>
+        signed-off-by: Gareth Davies <gareth@balena.io>
+      author: Gareth Davies
+  version: 0.5.1
+  date: 2020-02-05T22:34:01.375Z
+- commits:
     - subject: Add separate instructions for macOS/Linux and Windows
       hash: 4067ac9d0f412e0b3415e7def6e3ac3cddb01b0b
       body: ''
