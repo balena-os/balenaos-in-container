@@ -1,4 +1,16 @@
 - commits:
+    - subject: Fix typo in Linux/macOS example  in Linux/macOS example
+      hash: 686aa50a8b2e4954a47abb0e3348936aa6178b43
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Rahul Thakoor <rahul@balena.io>
+        signed-off-by: Rahul Thakoor <rahul@balena.io>
+      author: Rahul Thakoor
+  version: 0.5.3
+  date: 2020-02-17T10:38:31.908Z
+- commits:
     - subject: Make the aufs2overlay script executable
       hash: 3450131efa45c2030aed1705e8b1681388bf1c28
       body: ''
