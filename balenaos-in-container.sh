@@ -9,6 +9,7 @@ clean_volumes=no
 docker_extra_args=""
 detach=""
 no_tty="-ti"
+labels=""
 
 function help {
 	cat << EOF
@@ -44,6 +45,9 @@ ARGUMENTS:
 	--no-tty
 		Don't allocate a pseudo-TTY and don't keep STDIN open (docker run without "-it").
 		Default: no.
+	--label <label>
+		Provide a label for container creation, which is passed to docker
+		Example: --label BALENAOS=1
 EOF
 }
 
@@ -104,6 +108,14 @@ while [[ $# -ge 1 ]]; do
 		--no-tty)
 			no_tty=""
 			;;
+		--label)
+			if [ -z "$2" ]; then
+				echo "ERROR: --label argument needs a value."
+				exit 1
+			fi;
+			labels="$labels --label $2"
+			shift
+			;;
 		*)
 			echo "ERROR: Unrecognized option $1."
 			help
@@ -162,6 +174,7 @@ if docker run $no_tty --rm --privileged \
 		--dns 127.0.0.2 \
 		--name "${container_name}" \
 		--stop-signal SIGRTMIN+3 \
+		$labels \
 		-v /lib/modules:/lib/modules:ro \
 		-v "$SCRIPTPATH/conf/systemd-watchdog.conf:/etc/systemd/system.conf.d/watchdog.conf:ro" \
 		-v "$SCRIPTPATH/aufs2overlay.sh:/aufs2overlay" \
