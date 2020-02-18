@@ -1,4 +1,16 @@
 - commits:
+    - subject: Allow passing a docker label when creating the balenaos container
+      hash: d0824295598807603a5dccf756d7400f9cf9a49b
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Cameron Diver <cameron@balena.io>
+        signed-off-by: Cameron Diver <cameron@balena.io>
+      author: Cameron Diver
+  version: 0.6.0
+  date: 2020-02-18T04:14:12.412Z
+- commits:
     - subject: Fix typo in Linux/macOS example  in Linux/macOS example
       hash: 686aa50a8b2e4954a47abb0e3348936aa6178b43
       body: ''
