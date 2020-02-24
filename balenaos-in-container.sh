@@ -31,7 +31,6 @@ ARGUMENTS:
 		Default: randomly generated.
 	-c, --config <config>
 		The config.json path. This you can download from balena.io dashboard.
-		Mandatory argument.
 	-d, --detach
 		Run the container in the background and print container ID (just like "docker run -d")
 		Default: no.
@@ -129,9 +128,8 @@ while [[ $# -ge 1 ]]; do
 	shift
 done
 
-if [ -z "$image" ] || [ -z "$config_json" ]; then
-	echo "ERROR: Required arguments not provided."
-	help
+if [ -z "$image" ]; then
+	echo "ERROR: --image required but not provided."
 	exit 1
 fi
 
@@ -178,14 +176,24 @@ for volume in ${balena_boot_volume} ${balena_state_volume} ${balena_data_volume}
 		echo "INFO: Reusing ${volume} docker volume..."
 	else
 		echo "INFO: Creating ${volume} docker volume..."
-		docker volume create "${volume}" &> /dev/null
+		docker volume create --label "io.balena.balenaos-in-container=${volume}" "${volume}" &> /dev/null
 		if [[ "${volume}" == "${balena_boot_volume}" ]]; then
 			# Populate the boot volume with the config.json on creation
-			docker run -i --rm -v \
-				"${volume}":/mnt/boot -v "$config_json":/config.json \
+			if [ -z "$config_json" ]; then
+			    config_json_mount="type=tmpfs"
+			else
+			    config_json_mount="type=bind,src=${config_json}"
+			fi
+			docker run -i --rm \
+				--mount type=volume,src="${volume}",target=/mnt/boot \
+				--mount "$config_json_mount",target=/config.json \
 				"$image" sh << EOF
 if ! [ -f /mnt/boot/config.json ]; then
-	cp /config.json /mnt/boot/config.json
+	if [ -f /config.json ]; then
+	    cp /config.json /mnt/boot/config.json
+	else
+	    echo "{}" > /mnt/boot/config.json
+	fi
 else
 	echo "INFO: Reusing already existing config.json in docker volume."
 fi
