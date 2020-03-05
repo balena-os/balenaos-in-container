@@ -7,8 +7,7 @@ docker_prefix="balena-"
 docker_postfix="$RANDOM"
 clean_volumes=no
 docker_extra_args=""
-detach=""
-no_tty="-ti"
+detached=""
 
 function help {
 	cat << EOF
@@ -32,7 +31,7 @@ ARGUMENTS:
 	-c, --config <config>
 		The config.json path. This you can download from balena.io dashboard.
 		Mandatory argument.
-	-d, --detach
+	-d, --detached
 		Run the container in the background and print container ID (just like "docker run -d")
 		Default: no.
 	--extra-args <arguments>
@@ -40,9 +39,6 @@ ARGUMENTS:
 	--clean-volumes
 		If volumes are not planned to be reused, you can take advantage of this
 		argument to clean up the system. Cannot be used together with -d.
-		Default: no.
-	--no-tty
-		Don't allocate a pseudo-TTY and don't keep STDIN open (docker run without "-it").
 		Default: no.
 EOF
 }
@@ -91,8 +87,8 @@ while [[ $# -ge 1 ]]; do
 			fi
 			shift
 			;;
-		-d|--detach)
-			detach="--detach"
+		-d|--detached)
+			detached="true"
 			;;
 		--extra-args)
 			docker_extra_args="$2"
@@ -156,7 +152,7 @@ done
 container_name="${docker_prefix}container-${docker_postfix}"
 echo "INFO: Running balenaOS as container ${container_name} ..."
 #shellcheck disable=SC2086
-if docker run $no_tty --rm --privileged \
+if docker run -d -t --rm --privileged \
 		-e "container=docker" \
 		--stop-timeout=30 \
 		--dns 127.0.0.2 \
@@ -169,23 +165,18 @@ if docker run $no_tty --rm --privileged \
 		-v "${balena_state_volume}:/mnt/state" \
 		-v "${balena_data_volume}:/mnt/data" \
 		$docker_extra_args \
-		$detach \
 		"$image" \
 		sh -c '/aufs2overlay;exec /sbin/init'; then
-	if [ "$detach" != "" ]; then
-		echo "INFO: balenaOS container running as ${container_name}"
+
+	echo "INFO: balenaOS container running as ${container_name}"
+	if [ "$detached" = "" ]; then
+		docker attach "${container_name}"
 	else
 		echo "ERROR: Running docker container."
-	fi
-else
-	if [ "$detach" != "" ]; then
-		echo "ERROR: Running docker container."
-	else
-		echo "INFO: balenaOS container stopped."
 	fi
 fi
 
-if [ "$detach" = "" ] && [ "$clean_volumes" = "yes" ]; then
+if [ "$clean_volumes" = "yes" ]; then
 	echo "Cleaning volumes..."
 	docker volume rm "${balena_boot_volume}" "${balena_state_volume}" "${balena_data_volume}" &> /dev/null
 fi

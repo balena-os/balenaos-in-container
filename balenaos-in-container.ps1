@@ -24,7 +24,7 @@ The config.json path. This you can download from balena.io dashboard.
 Mandatory argument.
 Alias: -c
 
-.PARAMETER detach
+.PARAMETER detached
 Run the container in the background and print container ID (just like "docker run -d")
 Default: no.
 Alias: -d
@@ -42,11 +42,11 @@ Default: no.
 
 .EXAMPLE
 
-PS> .\balenaos-in-container.ps1 -image resin/resinos:2.46.0_rev1.dev-intel-nuc  -id test  -c "$PWD\config.json" -detach
+PS> .\balenaos-in-container.ps1 -image resin/resinos:2.46.0_rev1.dev-intel-nuc  -id test  -c "$PWD\config.json" -detached
 
 #>
 param ([Parameter(Mandatory,HelpMessage="Docker image to be used as balenaOS. Mandatory Argument")][string]$image,[switch]$no_tty, [Parameter(Mandatory,HelpMessage="The config.json path. This you can download from balena.io dashboard.
-Mandatory argument.")][Alias('c')][string]$config_path,[string]$prefix,[string]$id, [switch]$clean_volumes,[switch][Alias('d')]$detach, [string]$extra_args)
+Mandatory argument.")][Alias('c')][string]$config_path,[string]$prefix,[string]$id, [switch]$clean_volumes,[switch][Alias('d')]$detached, [string]$extra_args)
 
 #check if config file exists
 if(![System.IO.File]::Exists($config_path)){
@@ -64,12 +64,6 @@ if($prefix){
     $docker_prefix = $prefix
 }else{
     $docker_prefix = "balena-"
-}
-
-if($detach){
-    $detachVal = "--detach"
-}else{
-    $detachVal = ""
 }
 
 if($no_tty){
@@ -109,7 +103,7 @@ foreach ( $volume in $balena_boot_volume,$balena_state_volume, $balena_data_volu
 $container_name="${docker_prefix}container-${docker_postfix}"
 echo "INFO: Running balenaOS as container ${container_name} ..."
 
-docker run $no_ttyVal --rm --privileged `
+docker run -d -t --rm --privileged `
        --stop-timeout=30 `
        -e "container=docker" `
        --name ${container_name} `
@@ -121,14 +115,14 @@ docker run $no_ttyVal --rm --privileged `
        -v "${balena_state_volume}:/mnt/state" `
        -v "${balena_data_volume}:/mnt/data" `
        $extra_args `
-       ${detachVal} `
        ${image} `
        sh -c '/aufs2overlay;exec /sbin/init' 
 
 
 if ($LastExitCode -eq 0){
-    if ($detach -ne ""){
-        echo "INFO: balenaOS container running as ${container_name}"
+    echo "INFO: balenaOS container running as ${container_name}"
+    if ($detached -ne ""){
+        docker attach ${container_name}
     }
 }
 elseif ($LastExitCode -eq 130 -or $LastExitCode -eq 137) {
@@ -138,7 +132,7 @@ else{
     echo "ERROR: Running docker container."
 }
 
-if (!$detach -and $clean_volumes){
+if ($clean_volumes){
 	echo "Cleaning volumes..."
     docker volume rm "${balena_boot_volume}" "${balena_state_volume}" "${balena_data_volume}" 2>&1>$null
 }
