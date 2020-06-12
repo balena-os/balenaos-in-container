@@ -205,7 +205,7 @@ done
 container_name="${docker_prefix}container-${docker_postfix}"
 echo "INFO: Running balenaOS as container ${container_name} ..."
 #shellcheck disable=SC2086
-if docker run $no_tty --rm --privileged \
+if docker run $no_tty --rm \
 		-e "container=docker" \
 		--stop-timeout=30 \
 		--dns 127.0.0.2 \
@@ -217,6 +217,14 @@ if docker run $no_tty --rm --privileged \
 		-v "${balena_boot_volume}:/mnt/boot" \
 		-v "${balena_state_volume}:/mnt/state" \
 		-v "${balena_data_volume}:/mnt/data" \
+		--mount type=tmpfs,target=/run \
+		--mount type=tmpfs,target=/sys/fs/cgroup \
+		--cap-add NET_ADMIN \
+		--cap-add SYS_ADMIN \
+		--cap-add SYS_RESOURCE \
+		--security-opt 'apparmor:unconfined' \
+		--security-opt 'seccomp:unconfined' \
+		--sysctl 'net.ipv4.ip_forward=1' \
 		$docker_extra_args \
 		$detach \
 		"$image" \
