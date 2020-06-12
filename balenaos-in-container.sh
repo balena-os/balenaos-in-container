@@ -211,12 +211,12 @@ if docker run $no_tty --rm \
 		--dns 127.0.0.2 \
 		--name "${container_name}" \
 		--stop-signal SIGRTMIN+3 \
-		-v /lib/modules:/lib/modules:ro \
-		-v "$SCRIPTPATH/conf/systemd-watchdog.conf:/etc/systemd/system.conf.d/watchdog.conf:ro" \
-		-v "$SCRIPTPATH/aufs2overlay.sh:/aufs2overlay" \
-		-v "${balena_boot_volume}:/mnt/boot" \
-		-v "${balena_state_volume}:/mnt/state" \
-		-v "${balena_data_volume}:/mnt/data" \
+		--mount type=bind,src=/lib/modules,target=/lib/modules,ro \
+		--mount type=bind,src="$SCRIPTPATH/conf/systemd-watchdog.conf",target=/etc/systemd/system.conf.d/watchdog.conf,ro \
+		--mount type=bind,src="$SCRIPTPATH/aufs2overlay.sh",target=/aufs2overlay \
+		--mount type=volume,src="${balena_boot_volume}",target=/mnt/boot \
+		--mount type=volume,src="${balena_state_volume}",target=/mnt/state \
+		--mount type=volume,src="${balena_data_volume}",target=/mnt/data \
 		--mount type=tmpfs,target=/run \
 		--mount type=tmpfs,target=/sys/fs/cgroup \
 		--cap-add NET_ADMIN \
