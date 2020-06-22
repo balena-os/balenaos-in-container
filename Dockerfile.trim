@@ -1,0 +1,63 @@
+# vim: ft=dockerfile
+#
+# usage: 
+# docker build \
+#       --file Dockerfile.trim \
+#       --build-args version=2.50.1_rev1.dev \
+#       --build-args device_type=intel-nuc \
+#       --tag balenaos:trimmed
+#
+ARG version=2.50.1_rev1.dev
+ARG device_type=intel-nuc
+FROM resin/resinos:$version-$device_type
+
+# trim out system services
+# COPY ./fake.service /usr/share/fake.service
+RUN set -ex; \
+    for svc in \
+    # disable some stuff
+        resin-supervisor \
+        update-resin-supervisor \
+        update-resin-supervisor.timer \
+        rollback-altboot \
+        rollback-health \
+        resin-proxy-config \
+        avahi-daemon \
+        avahi-daemon.socket \
+        bluetooth \
+        hciuart \
+        os-sshkeys \
+        os-networkmanager \
+        resin-hostname \
+        bind-var-lib-bluetooth \
+        resin-persistent-logs \
+        bind-etc-resin-supervisor \
+    # disable some more stuff
+        os-config \
+        os-config-devicekey \
+        ModemManager \
+        plymouth-start \
+        os-udevrules \
+        chronyd \
+        balena-device-uuid \
+        sshdgenkeys \
+        resin-init \
+    # disable even more stuff!
+        plymouth-read-write \
+        resin-filesystem-expand \
+        sys-kernel-debug.mount \
+        rollback-clear-bootcount \
+        balena-host.socket \
+    # disable even even more stuff!!
+        bind-var-lib-chrony \
+        systemd-update-utmp \
+        bind-etc-udev-rules.d \
+        bind-etc-hostname \
+    # disable even vpn. are you really sure?
+        bind-etc-openvpn \
+        openvpn \
+        timeinit-timestamp \
+        prepare-openvpn \
+    ; do \
+        ln -sf /dev/null /etc/systemd/system/${svc}.service; \
+    done;
