@@ -1,0 +1,46 @@
+version: '2.2'
+
+volumes:
+  boot:
+  state:
+  data:
+
+services:
+  provision:
+    image: alpine:3.13
+    command:
+      - sh
+      - -c
+      - |
+        if ! [ -f /mnt/boot/config.json ]; then
+          cp /config.json /mnt/boot/config.json
+        else
+          echo "INFO: Reusing already existing config.json in docker volume."
+        fi
+    volumes:
+      - boot:/mnt/boot
+      - ${CONFIG_JSON:-./config.json}:/config.json
+  os:
+    build:
+      context: .
+      dockerfile: Dockerfile.template
+      args:
+        OS_VERSION: ${OS_VERSION:-2.68.1_rev1}
+        DEVICE_TYPE: ${DEVICE_TYPE:-intel-nuc}
+    depends_on:
+      - provision
+    privileged: true
+    dns: 127.0.0.2
+    stop_signal: SIGRTMIN+3
+    stop_grace_period: 30s
+    volumes:
+      - /lib/modules:/lib/modules:ro
+      - boot:/mnt/boot
+      - state:/mnt/state
+      - data:/mnt/data
+    tmpfs:
+      - /run
+      - /run/lock
+      - /tmp
+      - /sys/fs/cgroup/systemd
+      - /var/lib/journal
