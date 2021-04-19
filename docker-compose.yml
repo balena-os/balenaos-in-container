@@ -30,7 +30,6 @@ services:
     depends_on:
       - provision
     privileged: true
-    dns: 127.0.0.2
     stop_signal: SIGRTMIN+3
     stop_grace_period: 30s
     volumes:
@@ -44,3 +43,8 @@ services:
       - /tmp
       - /sys/fs/cgroup/systemd
       - /var/lib/journal
+    # this is required for the dns option to have any effect
+    # see https://github.com/docker/compose/issues/2847#issuecomment-658999887
+    network_mode: bridge
+    dns:
+      - 127.0.0.2
