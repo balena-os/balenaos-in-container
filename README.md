@@ -17,7 +17,19 @@ Before running this tool make sure:
 
 ## How to use
 
-There are two scripts in this project:
+### docker-compose
+
+The easiest way to get started is using [docker-compose](https://docs.docker.com/compose/):
+
+```
+$ docker-compose up
+```
+
+This assumes you have a `config.json` in the project directory (see step 2 below).
+
+### script
+
+There are also two scripts in this project:
 
 - `balenaos-in-container.sh`: use this to run on macOS or Linux
 - `balenaos-in-container.ps1`: use this to run on Windows
