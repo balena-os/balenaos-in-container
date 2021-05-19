@@ -1,7 +1,12 @@
+# syntax=docker/dockerfile:1.2
+
 ARG OS_VERSION
 ARG DEVICE_TYPE=%%BALENA_MACHINE_NAME%%
 
 FROM resin/resinos:${OS_VERSION}.dev-${DEVICE_TYPE}
+
+COPY ./entry.sh /entry.sh
+COPY ./conf/systemd-watchdog.conf /etc/systemd/system.conf.d/watchdog.conf
 
 ENV container=docker
 
@@ -9,8 +14,5 @@ VOLUME /mnt/boot \
        /mnt/state \
        /mnt/data
 
-COPY ./conf/systemd-watchdog.conf /etc/systemd/system.conf.d/watchdog.conf
-COPY ./aufs2overlay.sh /aufs2overlay
-
-CMD [ "sh", "-c", "/aufs2overlay && exec /sbin/init" ]
+CMD [ "/entry.sh" ]
 
