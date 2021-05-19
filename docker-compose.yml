@@ -48,3 +48,4 @@ services:
     network_mode: bridge
     dns:
       - 127.0.0.2
+    tty: true
