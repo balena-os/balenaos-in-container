@@ -41,7 +41,7 @@ The image must be a docker image. Does not support raw `.img` images. See https:
 - macOS or Linux: `-c, --config <config>`
 - Windows: `-c, -config <config>`
 
-The config can be downloaded from your balenaCloud dashboard. Once you have added an application click "Add a new device", click to expand the "Advanced" section and check "Download configuration file only" now click "Download configuration file".
+The config can be downloaded from your balenaCloud dashboard. Once you have added an application click "Add a new device". Click on the arrow right next to the "Download balenaOS" button. Check "Download configuration file only" now click "Download configuration file".
 
 ## Example
 
