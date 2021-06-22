@@ -10,6 +10,8 @@ for unit in $units; do
 done
 
 # copy device-type.json into the place the supervisor looks for it
-cp /resin-boot/device-type.json /mnt/boot/
+[ ! -f /mnt/boot/device-type.json ] && cp /resin-boot/device-type.json /mnt/boot/
+# copy config.json into boot partition
+[ ! -f /mnt/boot/config.json ] && cp /var/local/config.json /mnt/boot/
 
 exec /sbin/init
