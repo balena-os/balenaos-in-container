@@ -1,0 +1,36 @@
+version: '2.2'
+
+services:
+  os:
+    build:
+      context: .
+      dockerfile: Dockerfile.template
+      args:
+        OS_VERSION: ${OS_VERSION:-2.58.6_rev1}
+        DEVICE_TYPE: ${DEVICE_TYPE:-genericx86-64-ext}
+    privileged: true
+    stop_signal: SIGRTMIN+3
+    stop_grace_period: 30s
+    volumes:
+      - /lib/modules:/lib/modules:ro
+      - ${CONFIG_JSON:-./config.json}:/var/local/config.json
+      - boot:/mnt/boot
+      - data:/mnt/data
+      - state:/mnt/state
+    tmpfs:
+      - /run
+      - /run/lock
+      - /tmp
+      - /var/lib/journal
+      - /sys/fs/cgroup/systemd
+    # this is required for the dns option to have any effect
+    # see https://github.com/docker/compose/issues/2847#issuecomment-658999887
+    network_mode: bridge
+    dns:
+      - 127.0.0.2
+    tty: true
+
+volumes:
+  boot:
+  data:
+  state:
