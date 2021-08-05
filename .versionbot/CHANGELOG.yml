@@ -1,4 +1,50 @@
 - commits:
+    - subject: Use genericx86-64-ext device type
+      hash: d33285a1cdd33b3d1e0c7bfccb050c0ad1fb9750
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Robert Günzler <robertg@balena.io>
+        signed-off-by: Robert Günzler <robertg@balena.io>
+      author: Robert Günzler
+      nested: []
+    - subject: Remove scripts
+      hash: fb1e81c1e11201084dfdf6544646c1159598bf50
+      body: ''
+      footer:
+        Change-type: major
+        change-type: major
+        Signed-off-by: Robert Günzler <robertg@balena.io>
+        signed-off-by: Robert Günzler <robertg@balena.io>
+      author: Robert Günzler
+      nested: []
+    - subject: Allocate a tty
+      hash: 3e410f75d38a48cc2d4cb929bb54d07fefa3881c
+      body: |
+        With this systemd logs will be shown in the terminal
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Robert Günzler <robertg@balena.io>
+        signed-off-by: Robert Günzler <robertg@balena.io>
+      author: Robert Günzler
+      nested: []
+    - subject: Add compose file
+      hash: 1cc6f89fa461b3565083a9210bc2a40e066ba7e3
+      body: |
+        Replaces the start script and encapsulates all options required to run a
+        balenaOS container on docker.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Robert Günzler <robertg@balena.io>
+        signed-off-by: Robert Günzler <robertg@balena.io>
+      author: Robert Günzler
+      nested: []
+  version: 1.0.0
+  date: 2021-06-25T10:10:32.129Z
+- commits:
     - subject: Fix typo in Linux/macOS example  in Linux/macOS example
       hash: 686aa50a8b2e4954a47abb0e3348936aa6178b43
       body: ''
