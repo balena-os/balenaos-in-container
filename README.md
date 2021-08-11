@@ -15,6 +15,7 @@ Before running this tool make sure:
 
 ## How to use
 ```
+$ docker-compose build --no-cache
 $ docker-compose up
 ```
 
