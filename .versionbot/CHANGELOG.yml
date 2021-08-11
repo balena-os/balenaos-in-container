@@ -1,4 +1,15 @@
 - commits:
+    - subject: Added extra step to README - how to use
+      hash: 7daf039295939d2e53639e6ed8a2025f438c30e5
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: peakyDicers
+      nested: []
+  version: 1.0.1
+  date: 2021-08-11T19:52:19.330Z
+- commits:
     - subject: Use genericx86-64-ext device type
       hash: d33285a1cdd33b3d1e0c7bfccb050c0ad1fb9750
       body: ''
