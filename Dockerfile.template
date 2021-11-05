@@ -1,9 +1,8 @@
 # syntax=docker/dockerfile:1.2
 
-ARG OS_VERSION
-ARG DEVICE_TYPE=%%BALENA_MACHINE_NAME%%
+ARG SHA
 
-FROM resin/resinos:${OS_VERSION}.dev-${DEVICE_TYPE}
+FROM ${SHA}
 
 COPY ./entry.sh /entry.sh
 COPY ./conf/systemd-watchdog.conf /etc/systemd/system.conf.d/watchdog.conf
