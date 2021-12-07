@@ -1,36 +1,63 @@
-version: '2.2'
+version: "2.2"
+
+x-os: &os
+  build:
+    context: .
+    dockerfile: Dockerfile.template
+    args:
+      OS_VERSION: ${OS_VERSION:-2.83.18_rev1}
+      DEVICE_TYPE: ${DEVICE_TYPE:-genericx86-64-ext}
+  privileged: true
+  stop_signal: SIGRTMIN+3
+  stop_grace_period: 30s
+  environment:
+    - BALENA_ROOT_CA=${balenaRootCA}
+  extra_hosts:
+    - "${bobhost}:${bobip}"
+  tmpfs:
+    - /run
+    - /run/lock
+    - /tmp
+    - /var/lib/journal
+    - /sys/fs/cgroup/systemd
+  # this is required for the dns option to have any effect
+  # see https://github.com/docker/compose/issues/2847#issuecomment-658999887
+  network_mode: bridge
+  tty: true
 
 services:
-  os:
-    build:
-      context: .
-      dockerfile: Dockerfile.template
-      args:
-        OS_VERSION: ${OS_VERSION:-2.58.6_rev1}
-        DEVICE_TYPE: ${DEVICE_TYPE:-genericx86-64-ext}
-    privileged: true
-    stop_signal: SIGRTMIN+3
-    stop_grace_period: 30s
+  os1:
+    <<: *os
     volumes:
       - /lib/modules:/lib/modules:ro
       - ${CONFIG_JSON:-./config.json}:/var/local/config.json
       - boot:/mnt/boot
       - data:/mnt/data
       - state:/mnt/state
-    tmpfs:
-      - /run
-      - /run/lock
-      - /tmp
-      - /var/lib/journal
-      - /sys/fs/cgroup/systemd
-    # this is required for the dns option to have any effect
-    # see https://github.com/docker/compose/issues/2847#issuecomment-658999887
-    network_mode: bridge
-    dns:
-      - 127.0.0.2
-    tty: true
+  # os2:
+  #   <<: *os
+  #   volumes:
+  #   - /lib/modules:/lib/modules:ro
+  #   - ${CONFIG_JSON:-./config.json}:/var/local/config.json
+  #   - boot2:/mnt/boot
+  #   - data2:/mnt/data
+  #   - state2:/mnt/state
+  # os3:
+  #   <<: *os
+  #   volumes:
+  #   - /lib/modules:/lib/modules:ro
+  #   - ${CONFIG_JSON:-./config.json}:/var/local/config.json
+  #   - boot3:/mnt/boot
+  #   - data3:/mnt/data
+  #   - state3:/mnt/state
 
 volumes:
   boot:
   data:
   state:
+  # boot2:
+  # data2:
+  # state2:
+  # boot3:
+  # data3:
+  # state3:

@@ -14,4 +14,21 @@ done
 # copy config.json into boot partition
 [ ! -f /mnt/boot/config.json ] && cp /var/local/config.json /mnt/boot/
 
+# Include self-signed CAs, should they exist
+if [ -n "${BALENA_ROOT_CA}" ]; then
+	if [ ! -e '/etc/ssl/certs/balenaRootCA.pem' ]; then
+		echo "${BALENA_ROOT_CA}" | base64 --decode > /etc/ssl/certs/balenaRootCA.pem
+
+		# Include the balenaRootCA in the system store for services like Docker
+		mkdir -p /usr/local/share/ca-certificates
+		cp /etc/ssl/certs/balenaRootCA.pem /usr/local/share/ca-certificates/balenaRootCA.crt
+		update-ca-certificates
+	fi
+fi
+
+echo net.ipv6.conf.all.disable_ipv6=1 >/etc/sysctl.d/disableipv6.conf
+echo net.ipv6.conf.eth0.disable_ipv6=1 >>/etc/sysctl.d/disableipv6.conf
+echo net.ipv6.conf.default.disable_ipv6=1 >>/etc/sysctl.d/disableipv6.conf
+
+
 exec /sbin/init
