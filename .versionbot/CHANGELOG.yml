@@ -1,4 +1,19 @@
 - commits:
+    - subject: >-
+        Utilise anonymouse volumes to seperate between instances Move systemd to
+        volumes to be able to restart containers.
+      hash: d3739a420b282cf0bc4cc3c867b9e8b7d037e0e1
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: fisehara <harald@balena.io>
+        signed-off-by: fisehara <harald@balena.io>
+      author: fisehara
+      nested: []
+  version: 1.0.1
+  date: 2022-01-06T16:58:09.473Z
+- commits:
     - subject: Use genericx86-64-ext device type
       hash: d33285a1cdd33b3d1e0c7bfccb050c0ad1fb9750
       body: ''
