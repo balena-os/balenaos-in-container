@@ -4,10 +4,10 @@ services:
   os:
     build:
       context: .
-      dockerfile: Dockerfile.template
+      dockerfile: Dockerfile.bob.template
       args:
-        OS_VERSION: ${OS_VERSION:-2.58.6_rev1}
-        DEVICE_TYPE: ${DEVICE_TYPE:-genericx86-64-ext}
+        OS_VERSION: ${OS_VERSION:-2.48.0_rev3}
+        DEVICE_TYPE: ${DEVICE_TYPE:-intel-nuc}
     privileged: true
     stop_signal: SIGRTMIN+3
     stop_grace_period: 30s
@@ -23,9 +23,9 @@ services:
       - /run/lock
       - /tmp
       - /var/lib/journal
-    # this is required for the dns option to have any effect
-    # see https://github.com/docker/compose/issues/2847#issuecomment-658999887
     network_mode: bridge
+    extra_hosts:
+        - "api.${BOB_TLD} vpn.${BOB_TLD} registry2.${BOB_TLD} delta.${BOB_TLD} s3.${BOB_TLD}:${BOB_IP}" #host and ip
     dns:
       - 127.0.0.2
     tty: true
