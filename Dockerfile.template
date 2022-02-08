@@ -16,3 +16,5 @@ VOLUME /mnt/boot \
 
 CMD [ "/entry.sh" ]
 
+# avoid display crash on some host systems
+RUN rm /lib/systemd/system/sysinit.target.wants/systemd-udev-trigger.service
