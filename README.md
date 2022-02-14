@@ -14,13 +14,24 @@ Before running this tool make sure:
 4. The balenaOS image is compatible with the architecture where you are running the script. e.g. If you are running this script on your laptop (x86_64), you can run balenaOS images built for the NUC which are also x86_64. [***](#running-other-architectures)
 
 ## How to use
-```
-$ docker-compose up
+
+```bash
+docker-compose up --build
 ```
 
 This assumes you have a `config.json` in the project directory. It can be downloaded from your balenaCloud dashboard. Once you have added an application click "Add a new device", click to expand the "Advanced" section and check "Download configuration file only" now click "Download configuration file".
 
 You can find the latest balenaOS images on [dockerhub](https://hub.docker.com/r/resin/resinos/tags).
+
+If you need to clear volumes and start with a clean state, use the following compose commands:
+
+```bash
+# bring down all services and remove volumes
+docker-compose down --volumes --remove-orphans
+
+# build and bring up services again with new volumes
+docker-compose up -d --build
+```
 
 ## Running other architectures
 
