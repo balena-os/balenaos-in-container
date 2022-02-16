@@ -1,7 +1,42 @@
 - commits:
+    - subject: Add compose commands to clean old volumes and containers
+      hash: cbadcff95f2c6fca5597fead71cc6a4ce9b0f524
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Kyle Harding <kyle@balena.io>
+        signed-off-by: Kyle Harding <kyle@balena.io>
+      author: Kyle Harding
+      nested: []
+    - subject: Disable systemd-udev-trigger on boot
+      hash: ebcb4286b7fcf748100d2ce32066d19321a537d3
+      body: |
+        This will avoid deplay crashes on some host systems.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Kyle Harding <kyle@balena.io>
+        signed-off-by: Kyle Harding <kyle@balena.io>
+      author: Kyle Harding
+      nested: []
+    - subject: Update balenaOS base image to v2.83.18
+      hash: 12ed49d512cdf09c18ad76ab2f2f51097c20a8c8
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Kyle Harding <kyle@balena.io>
+        signed-off-by: Kyle Harding <kyle@balena.io>
+      author: Kyle Harding
+      nested: []
+  version: 1.1.0
+  title: "'Update balenaOS base image to v2.83.18'"
+  date: 2022-02-14T16:16:47.940Z
+- commits:
     - subject: Use genericx86-64-ext device type
       hash: d33285a1cdd33b3d1e0c7bfccb050c0ad1fb9750
-      body: ''
+      body: ""
       footer:
         Change-type: patch
         change-type: patch
@@ -11,7 +46,7 @@
       nested: []
     - subject: Remove scripts
       hash: fb1e81c1e11201084dfdf6544646c1159598bf50
-      body: ''
+      body: ""
       footer:
         Change-type: major
         change-type: major
@@ -47,7 +82,7 @@
 - commits:
     - subject: Fix typo in Linux/macOS example  in Linux/macOS example
       hash: 686aa50a8b2e4954a47abb0e3348936aa6178b43
-      body: ''
+      body: ""
       footer:
         Change-type: patch
         change-type: patch
@@ -59,7 +94,7 @@
 - commits:
     - subject: Make the aufs2overlay script executable
       hash: 3450131efa45c2030aed1705e8b1681388bf1c28
-      body: ''
+      body: ""
       footer:
         Change-type: patch
         change-type: patch
@@ -69,9 +104,9 @@
   version: 0.5.2
   date: 2020-02-10T10:34:12.314Z
 - commits:
-    - subject: 'README: Updating example for available options'
+    - subject: "README: Updating example for available options"
       hash: f213179dd901b95c57773517fff855679f29d3dc
-      body: ''
+      body: ""
       footer:
         Change-type: patch
         change-type: patch
@@ -83,7 +118,7 @@
 - commits:
     - subject: Add separate instructions for macOS/Linux and Windows
       hash: 4067ac9d0f412e0b3415e7def6e3ac3cddb01b0b
-      body: ''
+      body: ""
       footer:
         Change-type: minor
         change-type: minor
@@ -93,9 +128,9 @@
   version: 0.5.0
   date: 2020-02-03T05:50:12.140Z
 - commits:
-    - subject: 'Update README.md with examples, and argument explanations'
+    - subject: Update README.md with examples, and argument explanations
       hash: 9aceafdd781435b5306c62a2af948832282c3c77
-      body: ''
+      body: ""
       footer:
         Change-type: minor
         change-type: minor
@@ -119,7 +154,7 @@
   version: 0.3.0
   date: 2020-01-13T08:55:22.433Z
 - commits:
-    - subject: 'Fixes after config.json improvements in PR #19'
+    - subject: "Fixes after config.json improvements in PR #19"
       hash: 00604decd384f9fc148f03d7da81824356ab8d52
       body: |
         Fixes #20
@@ -134,7 +169,7 @@
 - commits:
     - subject: Avoid repopulating the config.json when reusing the boot volume
       hash: 29c7da7b384187c12c48f7875e2332c2ef4bc8f2
-      body: ''
+      body: ""
       footer:
         Change-type: minor
         change-type: minor
