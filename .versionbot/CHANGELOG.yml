@@ -1,4 +1,16 @@
 - commits:
+    - subject: Inform users that cgroups v2 is not supported
+      hash: 49d9045be27a948be0f6980ea5b628c5829679ec
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Taro Murao
+      nested: []
+  version: 1.1.1
+  title: "'Inform users that cgroups v2 is not supported'"
+  date: 2022-02-25T12:06:15.098Z
+- commits:
     - subject: Add compose commands to clean old volumes and containers
       hash: cbadcff95f2c6fca5597fead71cc6a4ce9b0f524
       body: ""
