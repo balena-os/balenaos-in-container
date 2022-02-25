@@ -12,6 +12,7 @@ Before running this tool make sure:
 2. Current user has privileges to run docker commands.
 3. Depending on what balenaOS image you are trying to boot, you might need aufs or overlayfs on your host.
 4. The balenaOS image is compatible with the architecture where you are running the script. e.g. If you are running this script on your laptop (x86_64), you can run balenaOS images built for the NUC which are also x86_64. [***](#running-other-architectures)
+5. `balenaos-in-container` does not support [`cgroups v2`](https://www.kernel.org/doc/html/latest/admin-guide/cgroup-v2.html) yet. Check the version of `cgroups` of your machine. [Guides for Linux users](https://unix.stackexchange.com/questions/619681/how-can-i-find-out-what-version-of-cgroups-i-have), and [Docker Desktop on Mac users](https://docs.docker.com/desktop/mac/release-notes/#bug-fixes-and-minor-changes-1). Downgrade your `cgroups` to v1 if you want to use `balenaos-in-container`.
 
 ## How to use
 
