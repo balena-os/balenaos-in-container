@@ -1,4 +1,18 @@
 - commits:
+    - subject: Adjust defaults for unified releases
+      hash: 0f01b1be64c431259f98d506f22891024e81678e
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Alex Gonzalez <alexg@balena.io>
+        signed-off-by: Alex Gonzalez <alexg@balena.io>
+      author: Alex Gonzalez
+      nested: []
+  version: 1.1.2
+  title: "'Adjust defaults for unified releases'"
+  date: 2022-05-02T12:34:47.281Z
+- commits:
     - subject: Inform users that cgroups v2 is not supported
       hash: 49d9045be27a948be0f6980ea5b628c5829679ec
       body: ""
