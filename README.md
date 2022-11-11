@@ -18,6 +18,7 @@ Before running this tool make sure:
 
 ```bash
 docker-compose up --build
+docker-compose up --build --detach to run the container in detach mode
 ```
 
 This assumes you have a `config.json` in the project directory. It can be downloaded from your balenaCloud dashboard. Once you have added an application click "Add a new device", click to expand the "Advanced" section and check "Download configuration file only" now click "Download configuration file".
