@@ -25,7 +25,7 @@ services:
       - /sys/fs/cgroup/systemd
     # this is required for the dns option to have any effect
     # see https://github.com/docker/compose/issues/2847#issuecomment-658999887
-    network_mode: bridge
+    network_mode: host
     dns:
       - 127.0.0.2
     tty: true
