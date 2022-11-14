@@ -43,3 +43,9 @@ Check out https://github.com/dbhi/qus/#setup for how to set that up.
 ## Development
 
 Want to contribute? Great! Throw pull requests at us.
+
+
+## Configure your device to enable BalenaOS automatically restart after reboot.
+1. sudo systemctl enable docker.service
+2. sudo systemctl enable containerd.service
+See more details [here](https://docs.docker.com/engine/install/linux-postinstall/#configure-docker-to-start-on-boot-with-systemd)
