@@ -29,6 +29,8 @@ services:
     dns:
       - 127.0.0.2
     tty: true
+    # see https://stackoverflow.com/questions/43671482/how-to-run-docker-compose-up-d-at-system-start-up for more details
+    restart: always 
 
 volumes:
   boot:
