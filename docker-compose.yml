@@ -14,23 +14,12 @@ services:
     volumes:
       - /lib/modules:/lib/modules:ro
       - ${CONFIG_JSON:-./config.json}:/var/local/config.json
-      - boot:/mnt/boot
-      - data:/mnt/data
-      - state:/mnt/state
     tmpfs:
       - /run
-      - /run/lock
       - /tmp
       - /var/lib/journal
-      - /sys/fs/cgroup/systemd
-    # this is required for the dns option to have any effect
-    # see https://github.com/docker/compose/issues/2847#issuecomment-658999887
-    network_mode: bridge
-    dns:
-      - 127.0.0.2
+      - /sys/fs/cgroup
+      - /mnt/boot
+      - /mnt/data
+      - /mnt/state
     tty: true
-
-volumes:
-  boot:
-  data:
-  state:
