@@ -1,4 +1,18 @@
 - commits:
+    - subject: Switch from resinCI to Flowzone
+      hash: 79695cb5254b8cd5542ef2cb21ecaaa1eeffdf71
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Kyle Harding <kyle@balena.io>
+        signed-off-by: Kyle Harding <kyle@balena.io>
+      author: Kyle Harding
+      nested: []
+  version: 1.1.3
+  title: ""
+  date: 2023-08-22T16:18:03.840Z
+- commits:
     - subject: Adjust defaults for unified releases
       hash: 0f01b1be64c431259f98d506f22891024e81678e
       body: ""
