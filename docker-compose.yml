@@ -6,8 +6,8 @@ services:
       context: .
       dockerfile: Dockerfile.template
       args:
-        OS_VERSION: ${OS_VERSION:-2.95.12_rev1}
-        DEVICE_TYPE: ${DEVICE_TYPE:-genericx86-64-ext}
+        OS_VERSION: ${OS_VERSION:-3.2.10}
+        DEVICE_TYPE: ${DEVICE_TYPE:-generic-amd64}
     privileged: true
     stop_signal: SIGRTMIN+3
     stop_grace_period: 30s
