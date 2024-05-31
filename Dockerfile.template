@@ -3,7 +3,8 @@
 ARG OS_VERSION
 ARG DEVICE_TYPE=%%BALENA_MACHINE_NAME%%
 
-FROM resin/resinos:${OS_VERSION}-${DEVICE_TYPE}
+# hadolint ignore=DL3007
+FROM bh.cr/balena_os/${DEVICE_TYPE}/${OS_VERSION}:latest
 
 COPY ./entry.sh /entry.sh
 COPY ./conf/systemd-watchdog.conf /etc/systemd/system.conf.d/watchdog.conf
