@@ -1,4 +1,19 @@
 - commits:
+    - subject: Pin OS release to latest known working version
+      hash: ec7d1919626040ac24393a0a61ebac2205ddd1fa
+      body: |
+        2.113.12 is also supported on generic-aarch64
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Kyle Harding <kyle@balena.io>
+        signed-off-by: Kyle Harding <kyle@balena.io>
+      author: Kyle Harding
+      nested: []
+  version: 1.2.0
+  title: ""
+  date: 2024-05-31T15:25:11.845Z
+- commits:
     - subject: Switch from resinCI to Flowzone
       hash: 79695cb5254b8cd5542ef2cb21ecaaa1eeffdf71
       body: ""
