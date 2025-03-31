@@ -1,5 +1,7 @@
 ![balenaOS in container](/images/balenaos-in-container.png)
 
+> NOTE: This tool does not currently work with OS 3.x+. For a better virtualization option, please use [QEMU](https://docs.balena.io/learn/getting-started/qemux86-64/nodejs/).
+
 # balenaOS in a docker container
 
 This is a tool which enables running balenaOS docker images as a docker container.
